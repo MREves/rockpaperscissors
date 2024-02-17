@@ -1,4 +1,77 @@
 
+var rock = document.getElementById('rock');
+var paper = document.getElementById('paper');
+var scissors = document.getElementById('scissors');
+var startGame = document.getElementById('startGame');
+
+
+// var computerSelection = getComputerChoice();
+
+var runningScoreDiv = document.createElement('div')
+runningScoreDiv.id = 'runningScoreDiv'
+document.body.appendChild(runningScoreDiv)
+
+var roundResultsDiv = document.createElement('div');
+roundResultsDiv.id = 'roundResultsDiv'
+document.body.appendChild(roundResultsDiv)
+
+// console.log("div created and appended:", div);
+
+var player_score = 0
+var computer_score = 0
+
+rock.addEventListener('click', function() {
+  var result = playOneRound('rock');
+  checkForWinner(result)
+});
+
+paper.addEventListener('click', function() {
+  var result = playOneRound('paper');
+  checkForWinner(result)
+});
+
+scissors.addEventListener('click', function() {
+  var result = playOneRound('scissors');
+  // console.log(result)
+  checkForWinner(result)
+});
+
+startGame.addEventListener('click', function() {
+  resetGame();
+})
+
+
+function resetGame(){
+  player_score = 0
+  computer_score = 0
+  var getDiv = document.getElementById('runningScoreDiv')
+  getDiv.textContent = `Scores reset to zero, let's play!`
+  roundResultsDiv.textContent = ''
+}
+
+function checkForWinner(result) {
+  
+  console.log(result)
+  if (result === 'Player wins!') {
+    player_score++;
+  } else if (result === 'Computer wins!') {
+    computer_score++;
+  }
+
+  runningScoreDiv.textContent = `Player score: ${player_score} | Computer score: ${computer_score}`
+
+  // let div = document.getElementById('roundResultsDiv')
+  if (player_score==5) {
+    roundResultsDiv.textContent = 'Congratulations Player - you win!'
+    player_score = 0;
+    computer_score = 0;
+  } else if (computer_score==5) {
+    roundResultsDiv.textContent = 'Oh no! You lose!'
+    player_score = 0;
+    computer_score = 0;
+  }
+}
+
 function getComputerChoice() {
   // Function to get the random choice from the computer
   let options = Array('Rock', 'Paper', 'Scissors')
@@ -6,12 +79,14 @@ function getComputerChoice() {
   return options[compuerChoice]
 }
 
-function playOneRound(playerSelection, computerSelection) {
+function playOneRound(playerSelection) {
   // Function to play one round of rock paper scissors 
   let computerWins = 'Computer wins!'
   let playerWins = 'Player wins!'
   let tie = 'Tie!'
   
+  computerSelection = getComputerChoice()
+
   player_lower_choice = playerSelection.toLowerCase()
   computer_lower_choice = computerSelection.toLowerCase()
 
@@ -30,7 +105,8 @@ function playOneRound(playerSelection, computerSelection) {
   } else if (player_lower_choice === 'scissors' && computer_lower_choice === 'paper') {
     result = playerWins; 
   } 
-
+  // console.log(result)
+  document.getElementById('roundResultsDiv').textContent = result
   return result;
   }
 
@@ -83,4 +159,4 @@ function game(number_of_games) {
   }
 
 
-
+  
